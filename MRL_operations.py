@@ -1,3 +1,6 @@
+#DOES NOT WORK. For now its just collection of codes I could write.
+
+
 import math
 import numpy as np
 from Buffer import Buffer
@@ -87,9 +90,9 @@ class Operations():
         self.N = int(N)
         self.b = b  # number of buffers
         self.k = k  # number of elements in each buffer
-        self.num_collapsed = 0 # number of collapsed operations
-        self.sum_weight_out_collapsed = 0 # sum of the weights of the output from the collapse operation
-        self.sum_offset_collapsed = 0     # summ of the offsets from the collapse operation
+        self.num_collapsed = 0 
+        self.sum_weight_out_collapsed = 0 
+        self.sum_offset_collapsed = 0     
         self.buffers_sorted = buffers_sorted
         self.buffers = [self._create_buffer() for i in range(b)]#np.ndarray((10,),dtype=np.object)
         self.inf = int(max_range) + 1 #np.inf
@@ -151,12 +154,11 @@ class Operations():
                     print("Collapse Even 2 type")
                     offset = (output_weight+2)//2
 
-                # Alternate between the two choices when we have successive even collapses with the same choice
+                
                 if(self.last_collapse_types.get_sum() == 2 or self.last_collapse_types.get_sum() == 4):
-                    self.collapse_even_type = (self.collapse_even_type%2)+1 # change it to 2 if it is 1 and to 1 if it is 2
-                # for j=0,1,...k-1
-            indcies = [j*output_weight+offset-1 for j in range(self.k)]
-            Y_elements = sorted_elements[indcies]
+                    self.collapse_even_type = (self.collapse_even_type%2)+1
+            indices = [j*output_weight+offset-1 for j in range(self.k)]
+            Y_elements = sorted_elements[indices]
             Y_buffer.store(output_elements.reshape((-1,1)))
             print(f"Collapse -> Output: {list(output_buffer.buffer.reshape((-1)))}")
             self.num_collapsed += 1
